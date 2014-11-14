@@ -41,9 +41,11 @@ let decode s=
       Str.(split (regexp "&") s)
   with _ -> StringMap.empty
 
-let head=
+let head title=
 {|<html>
 <head>
+    <meta charset="utf-8"/>
+    <title>|} ^ title ^ {|</title>
     <link rel="stylesheet" href="/css/main.css" type="text/css"/>
     <link rel="stylesheet" href="/css/markdown.css" type="text/css"/>
     <link rel="stylesheet" href="/css/highlight.css" type="text/css"/>

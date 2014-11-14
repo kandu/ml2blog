@@ -84,7 +84,7 @@ let string_of_sentence= function
     let str= BatPervasives.input_all inChan in
     close_in inChan;
     str
-  | Code (lang, code, lineno)->
+  | Code (lang, lineno, code)->
     let options= match lineno with
     | None-> ""
     | Some lineno-> sprintf "-O linenos=table,linenostart=%d" lineno
@@ -121,11 +121,11 @@ let string_of_postInfo ?(updatedDate=false) article=
     | Some date-> sprintf {|
         (updated on <span class="date">%s</span>)|}
         date
-      and tags tagS=
+  and tags tagS=
     StringSet.elements tagS
     |> List.map
       (fun tag-> "<span>" ^ tag ^ "</span>")
-    |> String.concat ""
+    |> String.concat " "
   in
    sprintf {|
     [tags: <span class="tag">%s</span>]
@@ -183,7 +183,7 @@ let writer path (site, disqus_code)=
       in
       let head= string_of_head site.home
       and tail= string_of_tail site.home in
-      write_to file Html.head;
+      write_to file (Html.head "MachineLife");
       write_to file head;
       List.map
         (fun (id, post)->
@@ -205,7 +205,7 @@ let writer path (site, disqus_code)=
       and content= string_of_post post
       and tail= string_of_tail post
       in
-      write_to file Html.head;
+      write_to file (Html.head post.title);
       write_to file head;
       write_to file @@ sprintf
         {|<script>var disqus_identifier= '%s';</script>|} id;
