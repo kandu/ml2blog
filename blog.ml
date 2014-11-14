@@ -11,7 +11,7 @@ type sentence=
   | Text of string
   | Image of uri * string
   | Mkd of string
-  | Code of lang * code * lineno
+  | Code of lang * lineno * code
   | Dot of string
 
 type paragraph= sentence list
