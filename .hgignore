@@ -1,0 +1,20 @@
+syntax: glob
+
+ml2blog
+
+_log
+_build
+*.native
+*.byte
+**/*.annot
+
+**/.\#*
+**/*~
+**/Session.vim
+**/.*.swp
+
+**/*.o
+**/*.a
+**/*.so
+**/*.cm*
+
