@@ -197,6 +197,24 @@ let writer path (site, disqus_code)=
         |> write_to file;
       write_to file tail;
       write_to file Html.tail
+  and genTabs ()=
+    let genTab id post path=
+      let file= of_fd
+        Unix.(openfile path [O_WRONLY; O_CREAT; O_TRUNC] 0o777)
+      and head= string_of_head post
+      and content= string_of_post post
+      and tail= string_of_tail post
+      in
+      write_to file (Html.head post.title);
+      write_to file head;
+      write_to file content;
+      write_to file tail;
+      write_to file Html.tail
+    in
+    StringMap.iter
+      (fun id post-> genTab id post
+        (String.concat Filename.dir_sep [path; "tab"; id; "value.html"]))
+      site.tabs
   and genPosts disqus_code=
     let genPost id post path=
       let file= of_fd
@@ -222,6 +240,7 @@ let writer path (site, disqus_code)=
   in
   mkdirs ();
   genHome ();
+  genTabs ();
   genPosts disqus_code
 
 module Argv= struct
